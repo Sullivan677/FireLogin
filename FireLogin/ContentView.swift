@@ -8,9 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var authModel: AuthViewModel
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        Group {
+            if authModel.user != nil {
+                MainView()
+            } else {
+                SignUpView()
+            }
+        }.onAppear {
+            authModel.listenToAuthState()
+        }
     }
 }
 
